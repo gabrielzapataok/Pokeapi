@@ -1,0 +1,17 @@
+<section id="container"></section>
+<script>
+    `use strict`
+    //Almaceno el valor que vino por busqueda en la URL (?name = pokemon)
+    const url = new URLSearchParams(window.location.search)
+    
+    //Obtengo el valor del parametro name que venga de la URL
+    const parameter = url.get('name');
+
+    (fetch(`https://pokeapi.co/api/v2/pokemon/${parameter}`)
+    .then(response => response.json())
+    .then(data=>{
+        let miElment = document.createElement('section')
+        miElment.innerHTML=`<a src="${data.sprites.back_default}" alt="Esto e una imagen" >`
+        document.getElementById('container').append(miElment)
+    }))();
+</script>
