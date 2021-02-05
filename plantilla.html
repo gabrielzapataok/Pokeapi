@@ -1,17 +1,40 @@
+<h1>Pagina de dealle</h1>
+<button id='back'>Volver atras</button>
 <section id="container"></section>
 <script>
-    `use strict`
+
+    //Creo la funcion de volver atras
+    function back(){window.history.back()}
+    
+    //Asigno la funcion de volver atras al boton del DOM
+    document.getElementById('back').addEventListener('click',back)
+
     //Almaceno el valor que vino por busqueda en la URL (?name = pokemon)
-    const url = new URLSearchParams(window.location.search)
+    const urlActual = new URLSearchParams(window.location.search)
     
     //Obtengo el valor del parametro name que venga de la URL
-    const parameter = url.get('name');
+    const parameter = urlActual.get('pokemon');
+    
+    //Me traigo los datos de ese pokemon
+    fetch(`https://pokeapi.co/api/v2/pokemon/${parameter}`)
 
-    (fetch(`https://pokeapi.co/api/v2/pokemon/${parameter}`)
+    //Los codifico en Json
     .then(response => response.json())
     .then(data=>{
-        let miElment = document.createElement('section')
-        miElment.innerHTML=`<a src="${data.sprites.back_default}" alt="Esto e una imagen" >`
-        document.getElementById('container').append(miElment)
-    }))();
+
+    //Creo una tarjeta de pokemon
+    let card = document.createElement('div')
+
+    //Meto los datos del pokemon en la tarjeta
+    card.innerHTML=`
+        <article>
+            <h3>nombre: ${data.name}</h3>
+            <img src="${data.sprites.front_default}"></img>
+            <p>Tipo</p>
+        </article>
+    `
+    //Agrego la tarjeta al DOM
+    document.getElementById('container').append(card)
+
+    });
 </script>
